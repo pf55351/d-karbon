@@ -1,27 +1,29 @@
-import Hero from "./components/Hero"
 import Advantages from "./components/Advantages"
-import Marketplace from "./components/Marketplace"
+import DappButtons from "./components/DappButtons"
+import Hero from "./components/Hero"
+import HowLaunchpoolWorks from "./components/HowLaunchpoolWorks"
 import HowMarketplaceWorks from "./components/HowMarketplaceWorks"
 import Launchpool from "./components/Launchpool"
-import HowLaunchpoolWorks from "./components/HowLaunchpoolWorks"
-import Team from "./components/Team"
-import Roadmap from "./components/Roadmap"
-import DappButtons from "./components/DappButtons"
+import Marketplace from "./components/Marketplace"
 import Navigation from "./components/Navigation"
+import Roadmap from "./components/Roadmap"
+import Team from "./components/Team"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="flex min-h-screen flex-col bg-white dark:bg-black">
       <Navigation />
-      <Hero />
-      <Advantages />
-      <Marketplace />
-      <HowMarketplaceWorks />
-      <Launchpool />
-      <HowLaunchpoolWorks />
-      <Team />
-      <Roadmap />
-      <DappButtons />
+      <main className="flex-grow">
+        <Hero />
+        <DappButtons />
+        <Advantages />
+        <Marketplace />
+        <HowMarketplaceWorks />
+        <Launchpool />
+        <HowLaunchpoolWorks />
+        <Team />
+        <Roadmap />
+      </main>
     </div>
   )
 }

@@ -17,10 +17,10 @@ export default function Roadmap() {
           }
         })
       },
-      { threshold: 0.3 },
+      { threshold: 0.1 },
     )
 
-    const elements = document.querySelectorAll(".roadmap-item")
+    const elements = document.querySelectorAll(".roadmap-item-card")
     elements.forEach((el) => observer.observe(el))
 
     return () => observer.disconnect()
@@ -86,70 +86,66 @@ export default function Roadmap() {
   const getStatusIcon = (status: string, IconComponent: any) => {
     switch (status) {
       case "completed":
-        return <CheckCircle className="w-8 h-8 text-green-600" />
+        return <CheckCircle className="h-8 w-8 text-green-500" />
       case "current":
-        return <Zap className="w-8 h-8 text-yellow-600 animate-pulse" />
+        return <Zap className="h-8 w-8 text-yellow-500 animate-pulse" />
       default:
-        return <IconComponent className="w-8 h-8 text-gray-600" />
+        return <IconComponent className="h-8 w-8 text-gray-500" />
     }
   }
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return "bg-green-50 border-green-200"
+        return "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800/50"
       case "current":
-        return "bg-yellow-50 border-yellow-200 animate-pulse-border"
+        return "bg-yellow-50 border-yellow-200 animate-pulse-border dark:bg-yellow-900/20 dark:border-yellow-800/50"
       default:
-        return "bg-gray-50 border-gray-200"
+        return "bg-gray-50 border-gray-200 dark:bg-gray-800/50 dark:border-gray-700/50"
     }
   }
 
   return (
-    <section id="roadmap" className="py-24 bg-white overflow-hidden">
+    <section id="roadmap" className="py-24 bg-white dark:bg-gray-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
-            <div className="flex items-center space-x-2 bg-yellow-100 border border-yellow-200 rounded-full px-6 py-3">
-              <Star className="w-5 h-5 text-yellow-600" />
-              <span className="text-yellow-700 font-medium">Roadmap 2024-2025</span>
+            <div className="flex items-center space-x-2 bg-yellow-100 border border-yellow-200 rounded-full px-6 py-3 dark:bg-yellow-900/20 dark:border-yellow-800/50">
+              <Star className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+              <span className="text-yellow-700 font-medium dark:text-yellow-300">Roadmap 2024-2025</span>
             </div>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
-              Our Vision
-            </span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">Our Vision</h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             A clear path towards the future of carbon credit trading.
           </p>
         </div>
 
         <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-green-400 via-yellow-400 to-gray-400 rounded-full" />
+          {/* Timeline line - hidden on mobile */}
+          <div className="absolute left-1/2 hidden h-full w-1 -translate-x-1/2 transform rounded-full bg-gradient-to-b from-green-300 via-yellow-300 to-gray-300 dark:from-green-800 dark:via-yellow-800 dark:to-gray-700 md:block" />
 
-          <div className="space-y-16">
+          <div className="space-y-8 md:space-y-16">
             {roadmapItems.map((item, index) => (
               <div
                 key={index}
-                className={`roadmap-item flex items-center ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
-                data-index={index}
+                className={`md:flex md:items-center ${index % 2 === 0 ? "" : "md:flex-row-reverse"}`}
                 onMouseEnter={() => setActiveItem(index)}
                 onMouseLeave={() => setActiveItem(null)}
               >
-                <div className={`w-1/2 ${index % 2 === 0 ? "pr-12 text-right" : "pl-12 text-left"}`}>
+                <div className={`w-full md:w-1/2 ${index % 2 === 0 ? "md:pr-12" : "md:pl-12"}`}>
                   <div
-                    className={`${getStatusColor(item.status)} border rounded-3xl p-8 transition-all duration-700 group cursor-pointer ${
+                    data-index={index}
+                    className={`roadmap-item-card border rounded-3xl p-8 transition-all duration-700 group cursor-pointer ${getStatusColor(item.status)} ${
                       visibleItems.includes(index)
                         ? "opacity-100 translate-y-0 scale-100"
                         : "opacity-0 translate-y-10 scale-95"
                     } ${activeItem === index ? "scale-105 shadow-xl" : "hover:scale-102 hover:shadow-lg"}`}
-                    style={{ transitionDelay: `${index * 200}ms` }}
+                    style={{ transitionDelay: `${index * 100}ms` }}
                   >
                     <div className="flex items-center justify-between mb-6">
-                      <span className="text-sm font-bold text-yellow-700 bg-yellow-100 px-4 py-2 rounded-full">
+                      <span className="text-sm font-bold text-yellow-700 bg-yellow-100 px-4 py-2 rounded-full dark:bg-yellow-900/50 dark:text-yellow-300">
                         {item.quarter}
                       </span>
                       <div
@@ -159,11 +155,11 @@ export default function Roadmap() {
                       </div>
                     </div>
 
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-yellow-600 transition-colors duration-300">
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300">
                       {item.title}
                     </h3>
 
-                    <p className="text-gray-600 mb-6 group-hover:text-gray-700 transition-colors duration-300">
+                    <p className="text-gray-600 dark:text-gray-300 mb-6 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300">
                       {item.description}
                     </p>
 
@@ -171,7 +167,7 @@ export default function Roadmap() {
                       {item.items.map((subItem, subIndex) => (
                         <li
                           key={subIndex}
-                          className="flex items-center text-sm text-gray-600 group-hover:text-gray-700 transition-all duration-300"
+                          className="flex items-center text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-all duration-300"
                         >
                           <div className={`w-3 h-3 bg-gradient-to-r ${item.color} rounded-full mr-3`} />
                           {subItem}
@@ -179,14 +175,13 @@ export default function Roadmap() {
                       ))}
                     </ul>
 
-                    {/* Progress Bar for Current Item */}
                     {item.status === "current" && (
                       <div className="mt-6">
-                        <div className="flex justify-between text-sm text-gray-600 mb-2">
+                        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
                           <span>Progress</span>
                           <span>65%</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
                           <div
                             className="bg-gradient-to-r from-yellow-500 to-orange-500 h-2 rounded-full"
                             style={{ width: "65%" }}
@@ -197,8 +192,8 @@ export default function Roadmap() {
                   </div>
                 </div>
 
-                {/* Central Timeline Node */}
-                <div className="relative z-20">
+                {/* Central Timeline Node - hidden on mobile */}
+                <div className="relative z-20 hidden md:flex md:w-20 md:justify-center">
                   <div
                     className={`w-20 h-20 rounded-full border-4 flex items-center justify-center transition-all duration-500 ${
                       item.status === "completed"
@@ -209,13 +204,13 @@ export default function Roadmap() {
                     } ${visibleItems.includes(index) ? "scale-100" : "scale-0"} ${
                       activeItem === index ? "scale-125 shadow-xl" : ""
                     }`}
-                    style={{ transitionDelay: `${index * 200 + 300}ms` }}
+                    style={{ transitionDelay: `${index * 100 + 150}ms` }}
                   >
                     {getStatusIcon(item.status, item.icon)}
                   </div>
                 </div>
 
-                <div className="w-1/2" />
+                <div className="hidden w-full md:block md:w-1/2" />
               </div>
             ))}
           </div>
